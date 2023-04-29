@@ -5,20 +5,16 @@ import useLocalStorage from "./hooks/useLocalStorage";
 
 const App = () => {
   const [compiled, setCompiled] = useState('<h2 id="hello">Hello</h2>');
-  const [hide, hidePreview] = useState(true);
+  // const [hidePreview, setHidePreview] = useState(true);
   const [code, setCode] = useLocalStorage(
     "test",
     "## please, write your text here"
   );
 
-  const openMD = () => {
-    console.log(0);
-    hidePreview(true);
-  };
+  const [activeTab, setActiveTab] = useState("code");
 
-  const openPreview = () => {
-    console.log(0);
-    hidePreview(false);
+  const toggleTab = (tab) => {
+    setActiveTab(tab);
   };
 
   const handleChange = (e) => {
@@ -31,19 +27,38 @@ const App = () => {
       <h1>MarkDown Previewer React App</h1>
       <div className="container">
         <div className="btns">
-          <button onClick={openMD} className="btn">
+          <button
+            onClick={() => toggleTab("code")}
+            className={`${activeTab === "code" ? "active" : " "}`}
+          >
             MarkDown
           </button>
-          <button onClick={openPreview}>Preview</button>
-          <button onClick={openPreview}>Docs</button>
+          <button
+            onClick={() => toggleTab("preview")}
+            className={`${activeTab === "preview" ? "active" : " "}`}
+          >
+            Preview
+          </button>
+          <button
+            onClick={() => toggleTab("docs")}
+            className={`${activeTab === "docs" ? "active" : " "}`}
+          >
+            Docs
+          </button>
         </div>
-        {hide ? (
+        {activeTab === "code" && (
           <div>
             <textarea onChange={handleChange} value={code} />
           </div>
-        ) : (
+        )}
+        {activeTab === "preview" && (
           <div>
             <textarea value={compiled} />
+          </div>
+        )}
+        {activeTab === "docs" && (
+          <div>
+            <textarea value="hello! this is docs!" />
           </div>
         )}
       </div>

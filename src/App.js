@@ -2,10 +2,9 @@ import "./App.css";
 import React, { useState } from "react";
 import { marked } from "marked";
 import useLocalStorage from "./hooks/useLocalStorage";
-
+import Docs from "./components/Docs";
 const App = () => {
   const [compiled, setCompiled] = useState('<h2 id="hello">Hello</h2>');
-  // const [hidePreview, setHidePreview] = useState(true);
   const [code, setCode] = useLocalStorage(
     "test",
     "## please, write your text here"
@@ -53,12 +52,12 @@ const App = () => {
         )}
         {activeTab === "preview" && (
           <div>
-            <textarea value={compiled} />
+            <textarea value={compiled} readOnly />
           </div>
         )}
         {activeTab === "docs" && (
           <div>
-            <textarea value="hello! this is docs!" />
+            <Docs />
           </div>
         )}
       </div>
